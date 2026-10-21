@@ -1,0 +1,93 @@
+/*
+ * Class: CMSC203 CRN 23011
+ * Instructor: Huseyin Aygun
+ * Description: (Create an aggregate using the class Property. For Property and ManagementClass, we declare its instance fields and create their methods accordingly. PropertyDriver then helps serve as the main class that helps create a ManagementCompany object, add properties to it, and display the information.)
+ * Due: 10/26/26
+ * Platform/compiler: Eclipse
+ * I pledge that I have completed the programming 
+ * assignment independently. I have not copied the code 
+ * from a student or any source. I have not given my code 
+ * to any student.
+   Print your Name here: Daniel Nguyen
+*/
+public class ManagementCompany {
+	
+	private String name;
+	private String taxId;
+	//public static final so the junit can actually access it and test it
+	public static final int MAX_PROPERTIES = 5;
+	private Property[] properties = new Property[MAX_PROPERTIES];
+	private int propertyCount;
+	
+	//parameterized constructor
+	public ManagementCompany(String n, String t)
+	{
+		name = n;
+		taxId = t;
+		properties = new Property[MAX_PROPERTIES];
+		propertyCount = 0;
+	}
+	
+	//copy constructor
+	public ManagementCompany(ManagementCompany object2)
+	{
+		name = object2.name;
+		taxId = object2.taxId;
+		propertyCount = object2.propertyCount;
+		for(int i = 0; i < propertyCount; i++)
+		{
+			properties[i] = new Property(object2.properties[i]);
+		}
+	}
+	
+	//other methods
+	public int addProperty(Property p)
+	{
+		if(propertyCount >= MAX_PROPERTIES || p == null)
+		{
+			return -1;
+		}
+		
+		properties[propertyCount] = new Property(p);
+		propertyCount++;
+		return(propertyCount-1);
+	}
+	
+	public double totalRent()
+	{
+		double total = 0;
+		for(int i = 0; i < propertyCount; i++)
+		{
+			total += properties[i].getRentAmount();
+		}
+		return total;
+	}
+	public int getPropertyCount()
+	{
+		return propertyCount;
+	}
+	public String toString()
+	{
+		String output = "Management Company: " + name + " (Tax ID: " + taxId + ")\n" + "Properties: \n";
+		for(int i = 0; i < propertyCount; i++)
+		{
+			output += (" " + i + ": " + properties[i].toString() + "\n");
+		}
+		output += String.format("Total Rent: $%.2f", totalRent());
+		return output;
+	}
+	
+	//add required getter methods to past the junit tests
+	public String getName()
+	{
+		return name;
+	}
+	public String getTaxId()
+	{
+		return taxId;
+	}
+	public Property getProperty(int index)
+	{
+		return new Property(properties[index]);
+	}
+}
